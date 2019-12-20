@@ -14,39 +14,10 @@ public class FrameT extends JFrame {
     private final int PANEL_HIGHT = 300;
     private final int BUTTON_WIDTH = 30;
     private final int BUTTON_HIGHT = 30;
-    private int[] resultAr = new int[9];
-    int player = 1;
-
-    private void searchCoincidence(int butNumber) {
-
-        if (resultAr[butNumber] != 1 && resultAr[butNumber] != 2) {
-            //Make array
-            if (player == 1) {
-                resultAr[butNumber] = 1;
-                player = 2;
-            } else {
-                resultAr[butNumber] = 2;
-                player = 1;
-            }
-            //Search coincidence
-            if (resultAr[0] == 1 && resultAr[1] == 1 && resultAr[2] == 1)
-                JOptionPane.showMessageDialog(new JFrame(), "First player win!");
-
-            if (resultAr[0] == 2 && resultAr[1] == 2 && resultAr[2] == 2)
-                JOptionPane.showMessageDialog(new JFrame(), "Second player win!");
-        } else
-            JOptionPane.showMessageDialog(new JFrame(), "Try another button!");
-    }
-
-    private void NextGame(){
-        for(int i = 0; i < resultAr.length; i++)
-            resultAr[i] = 0;
-        player = 1;
-
-    }
-
+    SearchWinner searchWinner = new SearchWinner();
 
     FrameT() {
+
         //Frame configuration
         setLocation(500, 100);
         setSize(FRAME_WIDTH, FRAME_HIGHT);
@@ -56,7 +27,7 @@ public class FrameT extends JFrame {
 
         //Panel configuration
         JPanel panel = new JPanel();
-        panel.setBounds(100,100, PANEL_WIDTH, PANEL_HIGHT);
+        panel.setBounds(100, 100, PANEL_WIDTH, PANEL_HIGHT);
         panel.setBackground(Color.yellow);
         panel.setLayout(new FlowLayout());
 
@@ -74,10 +45,10 @@ public class FrameT extends JFrame {
 
             if (i == 3 || i == 6) {
                 xPlus = 0;
-                yPlus += BUTTON_HIGHT*2;
+                yPlus += BUTTON_HIGHT * 2;
             }
             buttonsAr[i].setBounds(75 + xPlus, 75 + yPlus, BUTTON_WIDTH, BUTTON_HIGHT);
-            xPlus += BUTTON_WIDTH*2;
+            xPlus += BUTTON_WIDTH * 2;
 
             panel.add(buttonsAr[i]);
 
@@ -87,12 +58,41 @@ public class FrameT extends JFrame {
             buttonsAr[i].addActionListener(buttonListenerAr[i]);
         }
         this.add(panel);
+    }
+
+    private void analyzeOfState(int butNumber) {
+        int player = searchWinner.getPlayer();
+        int state = searchWinner.searchCoincidence(butNumber);
+        switch (state) {
+            case 0:
+                JOptionPane.showMessageDialog(new JFrame(), "Try another button.");
+                break;
+            case 1:
+                JOptionPane.showMessageDialog(new JFrame(), "First player win! Play more");
+                clearIcons();
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(new JFrame(), "Second player win! Play more");
+                clearIcons();
+                break;
+            case 3:
+                JOptionPane.showMessageDialog(new JFrame(), "Next step..");
+                makeIcon(player, butNumber);
+                break;
+        }
+    }
+
+    private void makeIcon(int player, int butNumber){
+
+    }
+    private void clearIcons(){
 
     }
 
     //Handling of actions
     class ButEventListener implements ActionListener {
         private int buttonName;
+
         ButEventListener() {
         }
 
@@ -103,7 +103,8 @@ public class FrameT extends JFrame {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             //JOptionPane.showMessageDialog(new JFrame(), "You pressed button " + (buttonName + 1));
-            searchCoincidence(buttonName);
+            analyzeOfState(buttonName);
+
         }
     }
 }
