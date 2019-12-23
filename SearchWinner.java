@@ -1,6 +1,6 @@
 package TicTacToe;
 
-import javax.swing.*;
+import java.util.Arrays;
 
 public class SearchWinner {
     public static final int WRONG_BUTTON = 0;
@@ -12,29 +12,23 @@ public class SearchWinner {
     public static final int STOP = 6;
     private static final int START_BUTTON_NAME = 9;
 
-
     private int[] resultAr = new int[9];
     private int player;
-    private boolean startFlag;
+    private boolean startFlag = false;
 
     SearchWinner() {
         ClearAll();
-        startFlag = false;
     }
 
     public int getPlayer() {
         return player;
     }
 
-    public void setStart() {
-        startFlag = true;
-    }
-
+    //Analyzing of field
     public int searchCoincidence(int butNumber) {
 
         if (startFlag) {
             if (butNumber == START_BUTTON_NAME) {
-                startFlag = true;
                 ClearAll();
                 return START;
             }
@@ -95,8 +89,7 @@ public class SearchWinner {
 
     //Make default state
     private void ClearAll() {
-        for (int i = 0; i < resultAr.length; i++)
-            resultAr[i] = 0;
+        Arrays.fill(resultAr, 0);
         player = 1;
     }
 }
