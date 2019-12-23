@@ -21,7 +21,10 @@ public class FrameT extends JFrame {
     ButEventListener[] buttonListenerAr;
     SearchWinner searchWinner;
     JLabel labelScore;
+
     FrameT() {
+        searchWinner = new SearchWinner();
+
         //Frame config
         setLocation(500, 100);
         setSize(FRAME_WIDTH, FRAME_HIGHT);
@@ -34,17 +37,17 @@ public class FrameT extends JFrame {
         //panel.setLayout(null);
         add(panel);
 
-        searchWinner = new SearchWinner();
+
         //Label panel config
         JPanel panelMainLabel = new JPanel();
-        panelMainLabel.setBounds(200, 300,150,100);
+        panelMainLabel.setBounds(200, 300, 150, 100);
         panelMainLabel.setBackground(Color.green);
         //panelMainLabel.setLayout(null);
         add(panelMainLabel);
 
         //Main label config
         JLabel labelMain = new JLabel("Гра хрестики-нулики");
-        labelMain.setBounds(0, 0, 0, 0);
+        labelMain.setBounds(100, 100, 0, 0);
         panelMainLabel.add(labelMain, BorderLayout.SOUTH);
 
         labelScore = new JLabel("Рахунок: 0 : 0");
@@ -57,7 +60,7 @@ public class FrameT extends JFrame {
 
         //Start button config
         JButton startButton = new JButton("START");
-        startButton.setBounds(400,400,50,50);
+        startButton.setBounds(400, 400, 50, 50);
 
         ButEventListener buttonListenerStart = new ButEventListener();
         buttonListenerStart.setButtonName(9);
@@ -98,13 +101,14 @@ public class FrameT extends JFrame {
     private int playerOneWins = 0;
     private int playerTwoWins = 0;
     private int draw = 0;
+
     //Analyzing of game
     private void analyzeOfState(int butNumber) {
         int player = searchWinner.getPlayer();
         int state = searchWinner.searchCoincidence(butNumber);
         switch (state) {
             case SearchWinner.WRONG_BUTTON:
-                JOptionPane.showMessageDialog(new JFrame(), "Try another button.", "Дідько лисий", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), "This is not a free field", "Дідько лисий", JOptionPane.WARNING_MESSAGE);
                 break;
             case SearchWinner.FIRST_WIN:
                 JOptionPane.showMessageDialog(new JFrame(), "First player win! Play more");
@@ -120,13 +124,13 @@ public class FrameT extends JFrame {
                 //JOptionPane.showMessageDialog(new JFrame(), "Next step player" + player);
                 makeIcon(player, butNumber);
                 break;
-            case SearchWinner.NO_ONE_WINS:
+            case SearchWinner.DRAW:
                 JOptionPane.showMessageDialog(new JFrame(), "No one wins! Play more");
                 draw++;
                 makeIcon(player, butNumber);
                 break;
             case SearchWinner.START:
-                JOptionPane.showMessageDialog(new JFrame(), "GO!");
+                //JOptionPane.showMessageDialog(new JFrame(), "GO!");
                 clearIcons();
                 break;
             case SearchWinner.STOP:

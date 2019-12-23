@@ -7,7 +7,7 @@ public class SearchWinner {
     public static final int FIRST_WIN = 1;
     public static final int SECOND_WIN = 2;
     public static final int NEXT_STEP = 3;
-    public static final int NO_ONE_WINS = 4;
+    public static final int DRAW = 4;
     public static final int START = 5;
     public static final int STOP = 6;
     private static final int START_BUTTON_NAME = 9;
@@ -32,8 +32,7 @@ public class SearchWinner {
 
     public int searchCoincidence(int butNumber) {
 
-        if (startFlag)
-        {
+        if (startFlag) {
             if (butNumber == START_BUTTON_NAME) {
                 startFlag = true;
                 ClearAll();
@@ -79,7 +78,7 @@ public class SearchWinner {
                     return NEXT_STEP;
                 } else {
                     startFlag = false;
-                    return NO_ONE_WINS;
+                    return DRAW;
                 }
             } else {
                 return WRONG_BUTTON;
@@ -92,10 +91,7 @@ public class SearchWinner {
             }
             return STOP;
         }
-
-
     }
-
 
     //Make default state
     private void ClearAll() {
